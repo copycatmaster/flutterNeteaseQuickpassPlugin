@@ -1,0 +1,73 @@
+group 'com.loongwalk.flutter_neteasequickpass'
+version '1.0'
+
+def getFlutterNeteaseQuickpassProjectDir() {
+    String result = ""
+    rootProject.allprojects { project ->
+        if (project.properties.get("identityPath").toString() == ":flutter_neteasequickpass") { // 这里是flutter的约定, 插件的module名是插件名, :是gradle的约定. project前加:
+            result = project.properties.get("projectDir").toString()
+        }
+    }
+    return result
+}
+
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.1.2'
+    }
+}
+
+rootProject.allprojects {
+
+    def dir = getFlutterNeteaseQuickpassProjectDir()
+
+    repositories {
+        google()
+        jcenter()
+        maven { // 添加这个指向本地的仓库目录
+            url "$dir/aar"
+        }
+//        flatDir {
+//            dirs 'libs'
+//        }
+    }
+}
+
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 30
+
+    defaultConfig {
+        minSdkVersion 16
+    }
+    repositories {
+//        flatDir {
+//            dirs 'libs'
+//        }
+    }
+    dependencies {
+//        implementation fileTree(include: ['*.jar'], dir: 'libs')
+//        implementation fileTree(include: ['*.aar'], dir: 'libs')
+
+//        implementation(name: 'quicklogin_library-external-release-3.0.1', ext: 'aar')
+//        // aar包具体名称请以官网下载下来为准implementation(name: 'CMCCSSOSDK-WY-release', ext: 'aar')
+//        implementation(name: 'Ui-factory_oauth_mobile_3.9.1.8', ext: 'aar')
+//        implementation(name: 'CTAccount_sdk_api_v3.8.3_all_wy', ext: 'aar')
+//        implementation(name: 'base-sdk-libary-release', ext: 'aar')
+        //网易盾一键登录 --start
+        implementation 'com.google.code.gson:gson:2.8.5'    // 配置对gson的依赖
+        implementation 'com.loongwalk:base-sdk-libary-release:1.0'
+        implementation 'com.loongwalk:CMCCSSOSDK-WY-release:1.0'
+        implementation 'com.loongwalk:CTAccount_sdk_api:3.8.3'
+        implementation 'com.loongwalk:quicklogin_library-external-release:3.0.1'
+        implementation 'com.loongwalk:Ui-factory_oauth_mobile:3.9.1.8'
+//        //网易盾一键登录 --end
+    }
+}
