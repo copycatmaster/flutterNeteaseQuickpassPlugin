@@ -1,5 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.loongwalk.flutter_neteasequickpass_example">
+
    <application
         android:label="flutter_neteasequickpass_example"
         android:icon="@mipmap/ic_launcher">
@@ -32,6 +34,15 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+       <activity
+           android:name="com.cmic.sso.wy.activity.LoginAuthActivity"
+           android:configChanges="keyboardHidden|orientation|screenSize"
+           android:launchMode="singleTop"
+           android:screenOrientation="behind"
+           android:theme="@style/Theme.ActivityDialogStyle"
+           tools:replace="android:screenOrientation,android:configChanges"
+           />
+
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data
