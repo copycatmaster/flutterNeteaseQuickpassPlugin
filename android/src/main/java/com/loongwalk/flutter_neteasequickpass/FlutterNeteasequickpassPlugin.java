@@ -343,7 +343,7 @@ public class FlutterNeteasequickpassPlugin implements FlutterPlugin, MethodCallH
           result.error("uninitialize","未初始化",null);
           return;
         }
-        if(lastYdToken == null || lastYdTokenTime - System.currentTimeMillis() > 2*60*1000 ) {
+        if(lastYdToken == null || (System.currentTimeMillis() - lastYdTokenTime) > 2*60*1000 ) {
           result.error("needPrefetchToken","需要调用prefetchToken",null);
           return;
         }
@@ -392,12 +392,14 @@ public class FlutterNeteasequickpassPlugin implements FlutterPlugin, MethodCallH
           result.error("uninitialize","未初始化",null);
           return;
         }
-        Log.i("flutter","call quitLogin");
+        Log.i("flutter","call qiltLogin");
         login.quitActivity();
         result.success(packResult("ok","ok",new HashMap<String,Object>(){{
         }}));
     } else if (call.method.equals("initialize")) {
       final String businessId = call.argument("businessId");
+      final String jsonConfigStr = call.argument("jsonConfig");
+      final int timeout = call.argument("timeout");
       if(login!=null) {
         result.success(packResult("ok","ok",new HashMap<String,Object>(){{
           put("businessId",businessId);
@@ -407,8 +409,9 @@ public class FlutterNeteasequickpassPlugin implements FlutterPlugin, MethodCallH
 
       Log.i("flutter","call initialize businessId is "+businessId);
       login = QuickLogin.getInstance(appContext, businessId);// BUSINESS_ID为从易盾官网申请的业务id
-      //login.setUnifyUiConfig(getUiConfig());
-      login.setUnifyUiConfig(getDialogUiConfig());
+      login.setPrefetchNumberTimeout(timeout); // 设置预取号超时时间，单位s
+      login.setFetchNumberTimeout(timeout);
+      login.setUnifyUiConfig((new JsonConfig(appContext)).buildUiConfig(jsonConfigStr));
       result.success(packResult("ok","ok",new HashMap<String,Object>(){{
           put("businessId",businessId);
       }}));

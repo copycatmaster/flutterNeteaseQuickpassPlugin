@@ -21,12 +21,12 @@ class FlutterNeteasequickpass {
     }
   }
 
-  static Future<Map> initialize(String businessId) async {
+  static Future<Map> initialize(String businessId,[int timeout=10,String jsonConfig="{}"]) async {
     try {
       if (businessId == "" && businessId == null) {
         return {"code":"params","msg":"businessId不能为空"};
       }
-      return await _channel.invokeMethod('initialize',{"businessId":businessId});
+      return await _channel.invokeMethod('initialize',{"businessId":businessId,"jsonConfig":jsonConfig,"timeout":timeout});
     } on PlatformException catch (e) {
       //print("Failed to call initialize: ${e.message} ");
       return {"code":e.code,"msg":e.message,"data":{"exception":e,"detail":e.details}};
