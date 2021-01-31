@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_neteasequickpass/flutter_neteasequickpass.dart';
+import 'dart:convert' as convert;
 
 void main() {
   runApp(MyApp());
@@ -17,6 +18,7 @@ class _MyAppState extends State<MyApp> {
   String _tokenMsg = '一键登录初始化中....';
   String _btnText = '一键登录初始化中..';
   bool _inited = false;
+
 
   Future<void> prefetchToken() async {
     var try_times = 0;
@@ -69,13 +71,19 @@ class _MyAppState extends State<MyApp> {
     do {
       try {
         Map tokenResult = await FlutterNeteasequickpass.launchLogin();
+        print(tokenResult.toString());
         if (tokenResult["code"] == "ok") {
+        print("11");
           setState(() {
             _tokenMsg = _tokenMsg + "\n" + tokenResult['msg'];
           });
+          print("22");
           await FlutterNeteasequickpass.quitLogin();
+          print("33");
           print("ydToken is:"+tokenResult['data']['ydToken']);
+          print("44");
           print("accessCode is:"+tokenResult['data']['accessCode']);
+          print("55");
           return;
         } else {
           setState(() {
@@ -86,9 +94,10 @@ class _MyAppState extends State<MyApp> {
           }
         }
       } catch(e) {
-        setState(() {
-          _tokenMsg = _tokenMsg + "\n" + e.message;
-        });
+      print(e.toString());
+        //setState(() {
+        //  _tokenMsg = _tokenMsg + "\n" + e.message;
+        //});
         if (e.code != "net_error" && e.code != "cancel") {
           return;
         }
@@ -114,8 +123,14 @@ class _MyAppState extends State<MyApp> {
     String btnText;
     print ("222");
     try {
+      var uiConfig = {
+        "isHideLogo": true
+      };
       String businessId =  "fa0cff55a1174fc2a63b247c8ee39da3";
-      await FlutterNeteasequickpass.initialize(businessId);
+      await FlutterNeteasequickpass.initialize(businessId,10,convert.jsonEncode(uiConfig));
+      Map ret = await FlutterNeteasequickpass.getISPName();
+      print("ISP");
+      print(ret.toString());
       if (!mounted) return;
     } on PlatformException catch(e){
       print('Failed to call initialize.');

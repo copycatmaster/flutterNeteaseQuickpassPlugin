@@ -20,7 +20,14 @@ class FlutterNeteasequickpass {
       return {"code":e.code,"msg":e.message,"data":{"exception":e,"detail":e.details}};
     }
   }
-
+  static Future<Map> getISPName() async {
+    try {
+        return await _channel.invokeMethod('getOperatorType');
+    } on PlatformException catch (e) {
+        //print("Failed to call prefetchToken: ${e.message} ");
+        return {"code":e.code,"msg":e.message,"data":{"exception":e,"detail":e.details}};
+    }
+  }
   static Future<Map> initialize(String businessId,[int timeout=10,String jsonConfig="{}"]) async {
     try {
       if (businessId == "" && businessId == null) {

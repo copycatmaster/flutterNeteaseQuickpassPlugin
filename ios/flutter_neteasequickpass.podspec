@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'flutter_neteasequickpass'
-  s.version          = '0.0.1'
+  s.version          = '0.1.8'
   s.summary          = 'neteasequickpass Flutter plugin.'
   s.description      = <<-DESC
 neteasequickpass Flutter plugin.
@@ -16,6 +16,7 @@ neteasequickpass Flutter plugin.
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
+  s.dependency 'NTESQuickPass', '3.0.1'
   s.platform = :ios, '8.0'
 
   # Flutter.framework does not contain a i386 slice.

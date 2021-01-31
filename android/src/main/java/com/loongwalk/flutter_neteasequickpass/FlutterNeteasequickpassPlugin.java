@@ -338,6 +338,33 @@ public class FlutterNeteasequickpassPlugin implements FlutterPlugin, MethodCallH
             }
         }
       });
+    } else if (call.method.equals("getOperatorType")) {
+      if(login==null) {
+        result.error("uninitialize","未初始化",null);
+        return;
+      }
+//      1:      电信
+//              * 2:      移动
+//              * 3:      联通
+//              * 5:      未知
+      String ispName = "unknown";
+      int ret = login.getOperatorType(appContext);
+      switch(ret) {
+        case 1:
+          ispName = "ChinaTelecom";
+          break;
+        case 2:
+          ispName = "ChinaMobile";
+          break;
+        case 3:
+          ispName = "ChinaUnicom";
+          break;
+      }
+      final String isp = ispName;
+      result.success(packResult("ok","ok",new HashMap<String,Object>(){{
+        put("isp",isp);
+      }}));
+      return;
     } else if (call.method.equals("launchLogin")) {
         if(login==null) {
           result.error("uninitialize","未初始化",null);
@@ -407,7 +434,7 @@ public class FlutterNeteasequickpassPlugin implements FlutterPlugin, MethodCallH
         return;
       }
 
-      Log.i("flutter","call initialize businessId is "+businessId);
+      Log.i("flutter","call initialize businessId is "+businessId+ "  jsonConfigStr "+jsonConfigStr+ " timeout: "+timeout);
       login = QuickLogin.getInstance(appContext, businessId);// BUSINESS_ID为从易盾官网申请的业务id
       login.setPrefetchNumberTimeout(timeout); // 设置预取号超时时间，单位s
       login.setFetchNumberTimeout(timeout);
