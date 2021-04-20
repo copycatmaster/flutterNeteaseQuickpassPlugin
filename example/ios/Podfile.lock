@@ -1,6 +1,6 @@
 PODS:
   - Flutter (1.0.0)
-  - flutter_neteasequickpass (0.0.1):
+  - flutter_neteasequickpass (0.1.8):
     - Flutter
     - NTESQuickPass (= 3.0.1)
   - integration_test (0.0.1):
@@ -26,7 +26,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
-  flutter_neteasequickpass: 48255e2bed052ccffb27b9933d4574773de3b270
+  flutter_neteasequickpass: 961805f63303a5edb2be79ec2b24196d17f21a9b
   integration_test: 6eb66a19f7104200dcfdd62bc0077e1b09686e4f
   NTESQuickPass: 3ae13d8d29ff66142b08735bc92d715407e5d1c7
 
